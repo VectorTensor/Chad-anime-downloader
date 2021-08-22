@@ -1,9 +1,10 @@
 animename=Tokyo_Revengers
-n=000
-start=000
-end=002
-counter=$start
+# name of the anime space is replaced with underscore _
 
+start=000 #start of the episode => start_episode-1
+end=2# end of the episode => end_episode-1
+counter=$start
+# Makes the anime directory if its not already present and goes to the directory
 if [ -d $animename ]
 then
     cd $animename
@@ -13,6 +14,8 @@ else
 fi
 
 c="000"
+# this function converts interger code to string code to make the url correct
+
 converter () {
     case $counter in
         0)
@@ -34,26 +37,27 @@ converter () {
         5)
             c="005"
             ;;
-        *)
-            echo error out of bound
-            ;;
     esac
 
     
 }
+home=https://21.manga47.net
+manga47 () {
+
+
 while [ $counter -le $end ]
 do
     converter
-    url="https://21.manga47.net/${animename}/${animename}_${c}.mp4"
+    url="${home}/${animename}/${animename}_${c}.mp4"
 
     filename=${animename}_${counter+1}
-   # curl $url --output "${filename}.mp4" 
+    curl $url --output "${filename}.mp4" 
    cp "${filename}.mp4" $animename
 
-   echo $url
-   echo $filename
    ((counter ++))
     
 done
+}
+manga47 
 
 
